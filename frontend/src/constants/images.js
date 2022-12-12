@@ -20,6 +20,9 @@ import vue from '../assets/vue.png';
 import spring from '../assets/spring.png';
 import angular from '../assets/angular.png';
 import django from '../assets/django.png';
+import symfony from '../assets/symfony.png';
+import laravel from '../assets/laravel.png';
+import php from '../assets/php.png';
 
 import about01 from '../assets/about01.png';
 import about02 from '../assets/about02.png';
@@ -74,5 +77,8 @@ export default {
   spotify,
   spring,
   angular,
-  django
+  django,
+  symfony,
+  laravel,
+  php
 };
