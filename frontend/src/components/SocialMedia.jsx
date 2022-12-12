@@ -5,15 +5,21 @@ import { FaXingSquare } from 'react-icons/fa';
 const SocialMedia = () => {
     return (
         <div className="app__social">
-            <div>
-                <BsLinkedin />
-            </div>
-            <div>
-                <FaXingSquare />
-            </div>
-            <div>
-                <BsGithub />
-            </div>
+            <a href="https://www.linkedin.com/in/khalil-fathalli-481594201/">
+                <div>
+                    <BsLinkedin />
+                </div>
+            </a>
+            <a href="https://www.xing.com/profile/Khalil_Fathalli">
+                <div>
+                    <FaXingSquare />
+                </div>
+            </a>
+            <a href="https://github.com/KhalilF7">
+                <div>
+                    <BsGithub />
+                </div>
+            </a>
         </div>
     )
 }
