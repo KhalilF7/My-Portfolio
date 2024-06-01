@@ -1,0 +1,243 @@
+.app__project-details-title {
+    font-weight: bold;
+    margin-top: 0;
+    color: var(--secondary-color);
+}
+
+.app__project-details-description {
+    margin-bottom: 20px;
+}
+
+.app__project-details-section {
+    margin-bottom: 20px;
+}
+
+.app__project-details-section-title {
+    font-weight: bold;
+    margin-top: 0;
+    color: var(--secondary-color);
+}
+
+.app__project-details-section-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.app__project-details-section-list-item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 14%;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    text-align: center;
+}
+
+.app__project-details-section-list-item-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #fef4f5;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app__project-details-section-list-item-icon-img {
+    height: 30px;
+}
+
+.app__project-details-section-list-item-text {
+    font-weight: 500;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.app__project-details-section-list-item-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.app__project-details-section-list-item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.app__project-details-section-list-item-info-name {
+    font-weight: 500;
+    margin-top: 0;
+}
+
+.app__project-details-section-list-item-info-role {
+    font-weight: 400;
+    color: var(--gray-color);
+    margin-top: 5px;
+}
+
+.app__project-details-section-list-item-title {
+    font-weight: bold;
+    margin-top: 0;
+}
+
+.app__project-details-section-list-item-description {
+    font-weight: 400;
+    color: var(--gray-color);
+    margin-top: 5px;
+}
+
+.app__project-details-section-list-item-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.app__result-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  
+   .app__result-item {
+      flex: 1;
+    }
+  
+   .app__result-btns {
+      margin-left: 1rem;
+      margin-right: 1rem;
+  
+      svg {
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+  
+        &:hover {
+          transform: translateX(0.2rem);
+        }
+      }
+    }
+  }
+
+.app__result-item {
+    width: 100%;
+    height: 550px;
+    background-color: var(--lightGray-color);
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+
+    transition: all 0.3s ease-in-out;
+
+    img {
+        width: 500px;
+        height: auto;
+        object-fit: cover;
+        margin-bottom: 1rem;
+    }
+
+    h4 {
+        font-weight: 600;
+        color: var(--secondary-color);
+        margin-bottom: 1rem;
+    }
+
+    @media screen and (min-width: 2000px) {
+        min-height: 450px;
+
+        img {
+            width: 150px;
+            height: 150px;
+        }
+    }
+
+    @media screen and (max-width: 850px) {
+        width: 100%;
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        flex-direction: column;
+    }
+}
+
+.app__result-content {
+    flex: 1;
+    height: 100%;
+    padding: 0 1rem;
+    text-align: left;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+
+    p {
+        font-size: 0.8rem;
+        color: var(--black-color);
+        font-family: var(--font-base);
+
+        @media screen and (min-width: 2000px) {
+            font-size: 2rem;
+            line-height: 3.5rem;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        margin-top: 2rem;
+        padding: 0;
+    }
+}
+
+.app__result-btns {
+    flex-direction: row;
+    margin-top: 1rem;
+
+    div {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: var(--lightGray-color);
+
+        margin: 1rem;
+        transition: all 0.3s ease-in-out;
+
+        svg {
+            width: 20px;
+            height: 20px;
+            color: var(--secondary-color);
+        }
+
+        &:hover {
+            background-color: var(--secondary-color);
+
+            svg {
+                color: var(--white-color);
+            }
+        }
+
+        @media screen and (min-width: 2000px) {
+            width: 100px;
+            height: 100px;
+
+            svg {
+                width: 45px;
+                height: 45px;
+            }
+        }
+    }
+}
