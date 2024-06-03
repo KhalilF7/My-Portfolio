@@ -37,6 +37,11 @@
     margin-bottom: 20px;
     margin-right: 20px;
     text-align: center;
+    
+    @media screen and (max-width: 600px) {
+        width: 25%;
+        margin: 10px;
+    }
 }
 
 .app__project-details-section-list-item-icon {
@@ -124,6 +129,12 @@
           transform: translateX(0.2rem);
         }
       }
+    }
+
+    @media screen and (max-width: 600px) {
+        flex-direction: column;
+        width: 100%;
+        height: 650px;
     }
   }
 

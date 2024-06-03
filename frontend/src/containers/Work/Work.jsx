@@ -7,7 +7,7 @@ import { AppWrap, MotionWrap } from '../../wrapper';
 import { urlFor, client } from '../../client';
 
 import './Work.scss';
-import ProjectDetails from './ProjectDetails/ProjectDetails';
+import ProjectDetails from '../ProjectDetails/ProjectDetails';
 
 const Work = () => {
     const [activeFilter, setActiveFilter] = useState('All');

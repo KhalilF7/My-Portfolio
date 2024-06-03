@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { urlFor, client } from '../../../client';
+import React, { useState } from 'react';
+import { urlFor } from '../../client';
 import { motion } from 'framer-motion';
 
 import './ProjectDetails.scss';
@@ -7,20 +7,10 @@ import { HiChevronLeft, HiChevronRight } from 'react-icons/hi';
 
 const ProjectDetails = ({ project }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [member, setMember] = useState('');
 
     const handleClick = (index) => {
         setCurrentIndex(index);
     }
-
-    useEffect(() => {
-        const query = '*[_type == "members" && name == "Khalil Fathalli"][0]';
-
-        client.fetch(query).then((data) => {
-            setMember(data);
-        });
-
-    }, []);
 
     return (
         <div>
@@ -80,7 +70,9 @@ const ProjectDetails = ({ project }) => {
             </div>
             <div className="app__project-details-section">
                 <h3 className="app__project-details-section-title">Results:</h3>
-                <p>This section details the functionalities and user experience of the {member.role} module I designed and developed.</p>
+                <p>This section details the functionalities and user experience of the {project.members.map((member, index) => (
+                    member.name === "Khalil Fathalli" ? member.role : null
+                ))} module(s) I designed and developed.</p>
                 {project.results.length > 0 && (
                     <div className="app__result-container app__flex">
                         <div className="app__result-btns app__flex">
