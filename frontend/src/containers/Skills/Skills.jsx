@@ -38,6 +38,11 @@ const Skills = () => {
         }
     };
 
+    const formatDate = (dateString) => {
+        const [year, month, day] = dateString.split('-');
+        return `${day}/${month}/${year}`;
+    };
+
     return (
         <>
             <h2 className='head-text'>Skills & Experience</h2>
@@ -81,7 +86,8 @@ const Skills = () => {
                                             key={work.name}
                                         >
                                             <h4 className='bold-text'>{work.name}</h4>
-                                            <p className='p-text'> {work.company} </p>
+                                            <h5> {work.company} </h5>
+                                            <h5>{formatDate(work.startDate)} - {formatDate(work.endDate)}</h5>
                                             <p className='p-text'> {work.desc} </p>
                                             <motion.button
                                                 whileTap={{ scale: 0.9 }}

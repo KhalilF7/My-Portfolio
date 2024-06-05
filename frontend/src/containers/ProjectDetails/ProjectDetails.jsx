@@ -10,11 +10,17 @@ const ProjectDetails = ({ project }) => {
 
     const handleClick = (index) => {
         setCurrentIndex(index);
-    }
+    };
+
+    function formatDate(dateString) {
+        const [year, month, day] = dateString.split('-');
+        return `${day}/${month}/${year}`;
+    };
 
     return (
         <div>
             <h2 className="app__project-details-title">{project.title}</h2>
+            <p className="app__project-details-date">This project was started on {formatDate(project.startDate)} and completed on {formatDate(project.endDate)}.</p>
             <p className="app__project-details-description">{project.description}</p>
             <div className="app__project-details-section">
                 <h3 className="app__project-details-section-title">My Role:</h3>

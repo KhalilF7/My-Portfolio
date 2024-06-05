@@ -23,7 +23,7 @@ const About = () => {
                 <span> Good Apps</span>
                 <br />
                 means
-                <span> Good Buiseness</span>
+                <span> Good Business</span>
             </h2>
 
             <div className='app__profiles'>

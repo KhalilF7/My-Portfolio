@@ -21,10 +21,14 @@ const Work = () => {
         const query = '*[_type == "works"]';
 
         client.fetch(query).then((data) => {
-            setWorks(data);
-            setFilterWork(data);
+            const sortedWorks = data.sort((a, b) => {
+                const startDateA = new Date(a.startDate);
+                const startDateB = new Date(b.startDate);
+                return startDateB - startDateA;
+            });
+            setWorks(sortedWorks);
+            setFilterWork(sortedWorks);
         });
-
     }, []);
 
     const handleProjectDetails = async (work) => {
@@ -49,7 +53,12 @@ const Work = () => {
                 setFilterWork(works.filter((work) => work.tags.includes(item)));
             }
         }, 500);
-    }
+    };
+
+    function formatDate(dateString) {
+        const [year, month, day] = dateString.split('-');
+        return `${day}/${month}/${year}`;
+    };
     return (
         <>
             <h2 className='head-text'>
@@ -108,6 +117,7 @@ const Work = () => {
 
                         <div className='app__work-content app__flex'>
                             <h4 className='bold-text'>{work.title}</h4>
+                            <p className='p-text'>{formatDate(work.startDate)} - {formatDate(work.endDate)}</p>
                             <p className='p-text' style={{ marginTop: 10 }}>{work.description}</p>
 
                             <div className='app__work-tag app__flex'>

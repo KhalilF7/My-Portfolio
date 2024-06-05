@@ -20,7 +20,14 @@ const Testimonial = () => {
         const brandsQuery = '*[_type == "brands"]';
 
         client.fetch(query).then((data) => {
-            setTestimonials(data);
+            const sortedTestimonials = data.sort((a, b) => {
+                const [startYearA, endYearA] = a.feedback.split('-').map(Number);
+                const [startYearB, endYearB] = b.feedback.split('-').map(Number);
+                const latestYearA = Math.max(startYearA, endYearA);
+                const latestYearB = Math.max(startYearB, endYearB);
+                return latestYearB - latestYearA;
+            });
+            setTestimonials(sortedTestimonials);
         });
         client.fetch(brandsQuery).then((data) => {
             setBrands(data);
@@ -28,7 +35,7 @@ const Testimonial = () => {
     }, []);
 
     const test = testimonials[currentIndex];
-    
+
     return (
         <>
             {testimonials.length && (
@@ -69,7 +76,7 @@ const Testimonial = () => {
 }
 
 export default AppWrap(
-    MotionWrap(Testimonial, 'app__testimonial'), 
-    'testimonials',
+    MotionWrap(Testimonial, 'app__testimonial'),
+    'education',
     'app__primarybg'
 );
