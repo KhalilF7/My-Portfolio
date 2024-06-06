@@ -20,7 +20,7 @@ const ProjectDetails = ({ project }) => {
     return (
         <div>
             <h2 className="app__project-details-title">{project.title}</h2>
-            <p className="app__project-details-date">This project was started on {formatDate(project.startDate)} and completed on {formatDate(project.endDate)}.</p>
+            <p className="app__project-details-date">This project was started on <strong>{formatDate(project.startDate)}</strong> and completed on <strong>{formatDate(project.endDate)}</strong>.</p>
             <p className="app__project-details-description">{project.description}</p>
             <div className="app__project-details-section">
                 <h3 className="app__project-details-section-title">My Role:</h3>
@@ -77,7 +77,7 @@ const ProjectDetails = ({ project }) => {
             <div className="app__project-details-section">
                 <h3 className="app__project-details-section-title">Results:</h3>
                 <p>This section details the functionalities and user experience of the {project.members.map((member, index) => (
-                    (member.name === "Khalil Fathalli" && member.role !== "Full Stack Developer") ? member.role : null
+                    (member.name === "Khalil Fathalli" && member.role !== "Full Stack Developer" && member.role !== "Front-End Developer " && member.role !== "PHP Web Developer") ? member.role : null
                 ))} module(s) I designed and developed.</p>
                 {project.results.length > 0 && (
                     <div className="app__result-container app__flex">
