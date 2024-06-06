@@ -16,6 +16,7 @@ const Work = () => {
     const [filterWork, setFilterWork] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [project, setProject] = useState(null);
+    const [projectExists, setProjectExists] = useState({});
 
     useEffect(() => {
         const query = '*[_type == "works"]';
@@ -30,6 +31,23 @@ const Work = () => {
             setFilterWork(sortedWorks);
         });
     }, []);
+
+    useEffect(() => {
+        const fetchProjectDetails = async () => {
+            const promises = works.map(async (work) => {
+                const projectDetailsQuery = `*[_type == "projectDetails" && title == "${work.title}"]`;
+                const projectDetails = await client.fetch(projectDetailsQuery);
+                return { [work.title]: projectDetails.length > 0 };
+            });
+
+            const results = await Promise.all(promises);
+            const projectExistsObj = results.reduce((acc, curr) => ({ ...acc, ...curr }), {});
+
+            setProjectExists(projectExistsObj);
+        };
+
+        fetchProjectDetails();
+    }, [works]);
 
     const handleProjectDetails = async (work) => {
         const projectDetailsQuery = `*[_type == "projectDetails" && title == "${work.title}"]`;
@@ -124,13 +142,17 @@ const Work = () => {
                                 <p className='p-text'>{work.tags[0]}</p>
                             </div>
 
-                            <motion.button
-                                whileTap={{ scale: 0.9 }}
-                                onClick={() => handleProjectDetails(work)}
-                                className="app__work-details app__flex"
-                            >
-                                More Details
-                            </motion.button>
+                            {
+                                projectExists[work.title] ? (
+                                    <motion.button
+                                        whileTap={{ scale: 0.9 }}
+                                        onClick={() => handleProjectDetails(work)}
+                                        className="app__work-details app__flex"
+                                    >
+                                        More Details
+                                    </motion.button>
+                                ) : null
+                            }
 
                             <Modal
                                 isOpen={isModalOpen}
