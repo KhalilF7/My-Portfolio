@@ -122,6 +122,11 @@
       color: var(--gray-color);
       margin-top: 5px;
     }
+    img {
+      width: 50px;
+      height: auto;
+      margin-right: 10px;
+    }
   }
 
   .app__work-details {
@@ -161,6 +166,18 @@
     font-size: 1.75rem !important;
     max-width: 500px !important;
     line-height: 2 !important;
+  }
+}
+
+.company-logo-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px; /* adjust the margin as needed */
+
+  img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px; /* adjust the margin as needed */
   }
 }
 

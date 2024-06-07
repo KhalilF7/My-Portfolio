@@ -77,7 +77,7 @@ const ProjectDetails = ({ project }) => {
             <div className="app__project-details-section">
                 <h3 className="app__project-details-section-title">Results:</h3>
                 <p>This section details the functionalities and user experience of the {project.members.map((member, index) => (
-                    (member.name === "Khalil Fathalli" && member.role !== "Full Stack Developer" && member.role !== "Front-End Developer " && member.role !== "PHP Web Developer") ? member.role : null
+                    (member.name === "Khalil Fathalli" && member.role !== "Full Stack Developer" && member.role !== "Front-End Developer " && member.role !== "PHP Web Developer" && member.role !== "Software Developer") ? member.role : null
                 ))} module(s) I designed and developed.</p>
                 {project.results.length > 0 && (
                     <div className="app__result-container app__flex">

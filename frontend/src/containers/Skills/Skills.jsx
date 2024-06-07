@@ -102,7 +102,10 @@ const Skills = () => {
                                             key={work.name}
                                         >
                                             <h4 className='bold-text'>{work.name}</h4>
-                                            <h5> {work.company} </h5>
+                                            <div className="company-logo-container">
+                                                <img src={urlFor(work.companyLogo)} alt={work.company} />
+                                                <h5> {work.company} </h5>
+                                            </div>
                                             <h5>{formatDate(work.startDate)} - {formatDate(work.endDate)}</h5>
                                             <p className='p-text'> {work.desc} </p>
                                             {projectExists[work.name] ? (

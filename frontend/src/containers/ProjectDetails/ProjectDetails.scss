@@ -64,7 +64,8 @@
 }
 
 .app__project-details-section-list-item-icon-img {
-    height: 30px;
+    max-height: 30px;
+    max-width: 100%;
 }
 
 .app__project-details-section-list-item-text {
@@ -83,6 +84,7 @@
 .app__project-details-section-list-item-info {
     display: flex;
     flex-direction: column;
+    height: 100px;
 }
 
 .app__project-details-section-list-item-info-name {
