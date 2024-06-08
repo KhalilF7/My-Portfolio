@@ -108,6 +108,13 @@ const Skills = () => {
                                             </div>
                                             <h5>{formatDate(work.startDate)} - {formatDate(work.endDate)}</h5>
                                             <p className='p-text'> {work.desc} </p>
+                                            <div className="tag-container">
+                                                {work.tags.map((tag) => (
+                                                    <div className="tag">
+                                                        <p className="tagName" style={{ color: tag.bgColor }}>#{tag.name}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
                                             {projectExists[work.name] ? (
                                                 <motion.button
                                                     whileTap={{ scale: 0.9 }}

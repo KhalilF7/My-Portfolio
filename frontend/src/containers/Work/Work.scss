@@ -11,7 +11,7 @@
   align-items: center;
   flex-wrap: wrap;
 
-  margin: 4rem 0 2rem;
+  margin: 2rem 0 1rem;
 
   .app__work-filter-item {
     padding: 0.5rem 1rem;
@@ -49,11 +49,11 @@
 
   .app__work-item {
     width: 270px;
-    height: 370px;
+    height: 350px;
     flex-direction: column;
 
-    margin: 2rem;
-    padding: 1rem;
+    margin: 1rem;
+    padding: 0.5rem;
     border-radius: 0.5rem;
     background-color: #fff;
     color: #000;

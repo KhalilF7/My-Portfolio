@@ -5,7 +5,7 @@ import { FaXingSquare } from 'react-icons/fa';
 const SocialMedia = () => {
     return (
         <div className="app__social">
-            <a href="https://www.linkedin.com/in/khalil-fathalli-481594201/">
+            <a href="https://www.linkedin.com/in/khalil-fathalli/">
                 <div>
                     <BsLinkedin />
                 </div>
