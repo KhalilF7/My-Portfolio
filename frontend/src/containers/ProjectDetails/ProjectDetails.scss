@@ -124,6 +124,14 @@
   object-fit: contain;
 }
 
+/* Fallback when a technology has no icon uploaded in Sanity. */
+.app__project-details-section-list-item-icon-initials {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--secondary-color);
+}
+
 .app__project-details-section-list-item-text {
   font-size: var(--fs-xs);
   font-weight: 500;

@@ -13,9 +13,25 @@ const OWNER = 'Khalil Fathalli';
 const GENERIC_ROLES = [
   'full stack developer',
   'front-end developer',
+  // Without this spelling, the SEO Revolution role produced "the Frontend
+  // Developer module I designed and developed".
+  'frontend developer',
+  'frontend entwickler',
+  'wordpress developer',
   'php web developer',
   'software developer',
 ];
+
+/**
+ * "WordPress" -> "W", "Bricks Builder" -> "BB", "Automatic.css" -> "AC".
+ * Used when a technology has no icon uploaded in Sanity.
+ */
+const initialsFor = (name = '') => String(name)
+  .split(/[\s._-]+/)
+  .filter(Boolean)
+  .slice(0, 2)
+  .map((word) => word[0].toUpperCase())
+  .join('');
 
 /**
  * The module the owner built on this project, or null when their role was a
@@ -160,7 +176,7 @@ const ProjectDetails = ({ project, onClose }) => {
                   className="app__project-details-section-list-item-icon"
                   style={{ backgroundColor: tech.bgColor }}
                 >
-                  {tech.icon && (
+                  {tech.icon ? (
                     <img
                       src={imageUrl(tech.icon, 40)}
                       alt=""
@@ -168,6 +184,12 @@ const ProjectDetails = ({ project, onClose }) => {
                       className="app__project-details-section-list-item-icon-img"
                       loading="lazy"
                     />
+                  ) : (
+                    // Not every technology has an icon uploaded in Sanity.
+                    // Initials read as deliberate; an empty circle reads as broken.
+                    <span className="app__project-details-section-list-item-icon-initials" aria-hidden="true">
+                      {initialsFor(tech.name)}
+                    </span>
                   )}
                 </div>
                 <p className="app__project-details-section-list-item-text">{tech.name}</p>
