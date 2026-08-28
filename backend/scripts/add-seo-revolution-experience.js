@@ -757,7 +757,13 @@ async function main() {
   );
 }
 
-main().catch((err) => {
-  console.error(`\nFailed: ${err.message}`);
-  process.exit(1);
-});
+module.exports = { ROLE, PROJECT_DETAILS, TEAM, PROJECTS, SKILLS_TO_ADD };
+
+// Only run when executed directly, so scripts/prepare-assets.js can reuse the
+// content manifest above without triggering a write.
+if (require.main === module) {
+  main().catch((err) => {
+    console.error(`\nFailed: ${err.message}`);
+    process.exit(1);
+  });
+}

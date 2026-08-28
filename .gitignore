@@ -19,3 +19,6 @@ npm-debug.log*
 # os
 .DS_Store
 Thumbs.db
+
+# staging folder for the Sanity import script
+backend/.tmp-assets/
