@@ -23,6 +23,11 @@ const About = () => {
         mean <span>good business</span>
       </h2>
 
+      <p className="section-subtitle">
+        A software engineer who cares as much about how a product feels to use as
+        about how it is built.
+      </p>
+
       <div className="app__profiles">
         {abouts.map((about, index) => (
           <motion.div

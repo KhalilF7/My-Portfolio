@@ -1,201 +1,206 @@
 .app__navbar {
-    width: 100%;
-  
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  
-    padding: 1rem 2rem;
-    background: rgba(255, 255, 255, 0.25);
-    // box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    position: fixed;
-    z-index: 2;
-  }
-  
-  .app__navbar-logo {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-  
-    img {
-      width: 50px;
-      height: auto;
-  
-      @media screen and (min-width: 2000px) {
-        width: 320px;
-        height: auto;
-      }
-    }
-  }
-  
-  .app__navbar-links {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  
-    list-style: none;
-  
-    li {
-      margin: 0 1rem;
-      cursor: pointer;
-  
-      flex-direction: column;
-  
-      div {
-        width: 5px;
-        height: 5px;
-        background: transparent;
-        border-radius: 50%;
-  
-        margin-bottom: 5px;
-      }
-  
-      a {
-        color: var(--gray-color);
-        text-decoration: none;
-        flex-direction: column;
-  
-        text-transform: uppercase;
-        font-weight: 500;
-  
-        transition: all 0.3s ease-in-out;
-  
-        &:hover {
-          color: var(--secondary-color);
-        }
-      }
-  
-      &:hover {
-        div {
-          background: var(--secondary-color);
-        }
-      }
-    }
-  
-    @media screen and (max-width: 900px) {
-      display: none;
-    }
-  }
-  
-  .app__navbar-menu {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    position: relative;
-  
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--secondary-color);
-  
-  
-    svg {
-      width: 70%;
-      height: 70%;
-      color: var(--white-color);
-    }
-  
-    div {
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      z-index: 5;
-  
-      padding: 1rem;
-  
-      width: 80%;
-      height: 100vh;
-      
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
-      flex-direction: column;
-      
-      background: url('../../assets/bgWhite.png');
-      background-color: var(--white-color);
-      background-size: cover;
-      background-repeat: repeat;
-  
-      /* top box shadow */
-      box-shadow: 0px 0px 20px rgba(168, 168, 168, 0.15);
-  
-      svg {
-        width: 35px;
-        height: 35px;
-        color: var(--secondary-color);
-        margin: 0.5rem 1rem;
-      }
-  
-      ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        width: 100%;
-  
-        display: flex;
-        justify-content: flex-start;
-        align-items: flex-start;
-        flex-direction: column;
-  
-        li {
-          margin: 1rem;
-  
-          a {
-            color: var(--gray-color);
-            text-decoration: none;
-            font-size: 1rem;
-            text-transform: uppercase;
-            font-weight: 500;
-  
-            transition: all 0.3s ease-in-out;
-  
-            &:hover {
-              color: var(--secondary-color);
-            }
-          }
-        }
-      }
-  
-      @media screen and (min-width: 900px) {
-        display: none;
-      }
-    }
-  
-    @media screen and (min-width: 900px) {
-      display: none;
-    }
-  }
-/* ---------------------------------------------------------------
-   Additions: active-link state and real <button> elements for the
-   mobile menu (they were bare <svg> icons, so keyboard users could
-   not open or close the menu).
-   --------------------------------------------------------------- */
+  width: 100%;
+  min-height: var(--nav-height);
 
-.app__navbar-links {
-  li.is-active {
-    div {
-      background: var(--secondary-color);
-    }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
 
-    a {
-      color: var(--secondary-color);
-      font-weight: 700;
-    }
+  padding: var(--space-3) var(--gutter);
+
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+
+  position: fixed;
+  top: 0;
+  z-index: 20;
+}
+
+.app__navbar-logo {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  img {
+    // Was 50px, jumping to 320px on screens wider than 2000px.
+    width: clamp(44px, 4vw, 68px);
+    height: auto;
   }
 }
 
+.app__navbar-links {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(0.75rem, 1.5vw, 2rem);
+
+  list-style: none;
+
+  li {
+    flex-direction: column;
+    cursor: pointer;
+
+    div {
+      width: 5px;
+      height: 5px;
+      background: transparent;
+      border-radius: 50%;
+      margin-bottom: 5px;
+
+      transition: background 0.25s ease-in-out;
+    }
+
+    a {
+      font-size: var(--fs-sm);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--gray-color);
+      white-space: nowrap;
+
+      transition: color 0.25s ease-in-out;
+
+      &:hover {
+        color: var(--secondary-color);
+      }
+    }
+
+    &:hover div {
+      background: var(--secondary-color);
+    }
+
+    // Set by the IntersectionObserver in Navbar.jsx.
+    &.is-active {
+      div {
+        background: var(--secondary-color);
+      }
+
+      a {
+        color: var(--secondary-color);
+        font-weight: 700;
+      }
+    }
+  }
+
+  @media screen and (max-width: 900px) {
+    display: none;
+  }
+}
+
+.app__navbar-menu {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--secondary-color);
+
+  svg {
+    width: 70%;
+    height: 70%;
+    color: var(--white-color);
+  }
+
+  // The sliding panel.
+  > div {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 25;
+
+    padding: var(--space-4);
+
+    width: min(80%, 340px);
+    height: 100svh;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    flex-direction: column;
+
+    background: url("../../assets/bgWhite.png");
+    background-color: var(--white-color);
+    background-size: cover;
+    background-repeat: repeat;
+
+    box-shadow: -10px 0 40px rgba(16, 24, 40, 0.16);
+
+    svg {
+      width: 32px;
+      height: 32px;
+      color: var(--secondary-color);
+    }
+
+    ul {
+      list-style: none;
+      margin: var(--space-6) 0 0;
+      padding: 0;
+      width: 100%;
+
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+      gap: var(--space-2);
+
+      li {
+        width: 100%;
+        margin: 0;
+
+        a {
+          display: block;
+          padding: var(--space-3) var(--space-4);
+          border-radius: var(--radius-sm);
+
+          font-size: var(--fs-md);
+          font-weight: 500;
+          text-transform: uppercase;
+          text-decoration: none;
+          color: var(--gray-color);
+
+          transition: color 0.25s ease-in-out, background-color 0.25s ease-in-out;
+
+          &:hover {
+            color: var(--secondary-color);
+            background-color: var(--surface-muted);
+          }
+
+          &[aria-current="true"] {
+            color: var(--secondary-color);
+            font-weight: 700;
+            background-color: var(--surface-muted);
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 901px) {
+    display: none;
+  }
+}
+
+/**
+ * Real <button> elements for the mobile menu. These were bare <svg> icons with
+ * onClick handlers, so keyboard users could not open or close the menu.
+ */
 .app__navbar-menu-toggle,
 .app__navbar-menu-close {
   padding: 0;
   border: none;
   background: transparent;
   cursor: pointer;
+
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,57 +1,59 @@
+/**
+ * Every other section container sets flex-direction: column (MotionWrap adds
+ * `app__flex`, which is display:flex with the default row direction). About was
+ * the only one missing it, so its heading, subtitle and cards were laid out
+ * side by side, with the h2 squeezed to 172px.
+ */
+.app__about {
+  flex: 1;
+  width: 100%;
+  flex-direction: column;
+}
+
 .app__profiles {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   justify-content: center;
   align-items: stretch;
-  flex-wrap: wrap;
-  gap: 2rem;
-  margin-top: 2rem;
+  gap: var(--space-6);
+  margin-top: var(--space-8);
 }
 
 .app__profile-item {
-  width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 
-  padding: 1.5rem;
-  border-radius: 15px;
+  padding: var(--space-5);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
   background-color: var(--white-color);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-sm);
 
-  transition: box-shadow 0.3s ease-in-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
-    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.1);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
   }
 
   img {
+    // Was a fixed 170px, growing to 320px above 2000px.
     width: 100%;
-    height: 170px;
+    height: clamp(150px, 14vw, 210px);
     object-fit: contain;
-    border-radius: 15px;
+    border-radius: var(--radius-md);
   }
 
   h3 {
-    margin-top: 1.25rem;
+    margin-top: var(--space-4);
+    font-size: var(--fs-lg);
     text-align: center;
   }
 
   p {
-    margin-top: 0.75rem;
+    margin-top: var(--space-3);
     text-align: center;
-  }
-
-  @media screen and (min-width: 2000px) {
-    width: 370px;
-
-    img {
-      height: 320px;
-    }
-  }
-
-  @media screen and (max-width: 450px) {
-    width: 100%;
-    max-width: 340px;
   }
 }

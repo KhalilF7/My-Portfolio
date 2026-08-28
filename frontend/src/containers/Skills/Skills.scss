@@ -10,37 +10,30 @@
 
 .app__skills-container {
   width: 100%;
-  max-width: 1200px;
-  margin-top: 3rem;
+  margin-top: var(--space-8);
 
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 4rem;
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  align-items: start;
+  gap: clamp(2rem, 4vw, 4rem);
 
   @media screen and (max-width: 900px) {
-    flex-direction: column;
-    gap: 2.5rem;
+    grid-template-columns: 1fr;
+    gap: var(--space-7);
   }
 }
 
 .app__skills-list {
-  flex: 1;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  @media screen and (max-width: 900px) {
-    justify-content: center;
-  }
+  display: grid;
+  // Was wrapped flex with 1rem margins, which left uneven gaps between rows.
+  grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+  gap: var(--space-4);
+  justify-items: center;
 }
 
 .app__skills-item {
   flex-direction: column;
   text-align: center;
-
-  margin: 1rem;
 
   transition: transform 0.3s ease-in-out;
 
@@ -49,8 +42,9 @@
   }
 
   div {
-    width: 90px;
-    height: 90px;
+    // Was 90px, growing to 150px above 2000px.
+    width: clamp(64px, 6vw, 88px);
+    height: clamp(64px, 6vw, 88px);
     border-radius: 50%;
     background-color: #fef4f5;
 
@@ -61,42 +55,25 @@
     }
 
     &:hover {
-      box-shadow: 0 0 25px #fef4f5;
-    }
-
-    @media screen and (min-width: 2000px) {
-      width: 150px;
-      height: 150px;
-    }
-
-    @media screen and (max-width: 450px) {
-      width: 70px;
-      height: 70px;
+      box-shadow: 0 0 22px #fef4f5;
     }
   }
 
   p {
+    margin-top: var(--space-2);
+    font-size: var(--fs-xs);
     font-weight: 500;
-    margin-top: 0.5rem;
     text-align: center;
-  }
-
-  @media screen and (min-width: 2000px) {
-    margin: 1rem 2rem;
-
-    p {
-      margin-top: 1rem;
-    }
   }
 }
 
 .app__skills-exp {
-  flex: 1.3;
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: stretch;
   flex-direction: column;
+  gap: var(--space-5);
 }
 
 .app__skills-exp-item {
@@ -105,33 +82,36 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
-  margin: 1rem 0;
+  gap: var(--space-5);
+
+  @media screen and (max-width: 480px) {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
 }
 
 .app__skills-exp-year {
-  min-width: 4.5rem;
-  margin-right: 2rem;
+  min-width: 4rem;
+  padding-top: var(--space-2);
 
   p {
+    font-size: var(--fs-lg);
     font-weight: 800;
-    font-size: 1.15rem;
     color: var(--secondary-color);
-  }
-
-  @media screen and (max-width: 450px) {
-    min-width: 3.5rem;
-    margin-right: 1rem;
   }
 }
 
 .app__skills-exp-works {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 
   /**
-   * Each role is now a card. It used to be unstyled stacked text, which made a
-   * long list of roles hard to scan, and it carried `cursor: pointer` even
-   * though the card itself was not clickable.
+   * Each role is a card. It used to be unstyled stacked text, which made a long
+   * list of roles hard to scan, and it carried `cursor: pointer` even though
+   * the card itself was not clickable.
    */
   .app__skills-exp-work {
     display: flex;
@@ -139,54 +119,58 @@
     justify-content: flex-start;
     align-items: flex-start;
 
-    margin-bottom: 1.5rem;
-    padding: 1.25rem 1.5rem;
-    border-radius: 12px;
+    padding: var(--space-5);
+    border: 1px solid var(--border-color);
     border-left: 3px solid var(--secondary-color);
-    background-color: var(--primary-color);
+    border-radius: var(--radius-md);
+    background-color: var(--surface-muted);
 
     transition: box-shadow 0.3s ease, transform 0.3s ease;
 
     &:hover {
       transform: translateX(3px);
-      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.07);
+      box-shadow: var(--shadow-md);
     }
 
     h3 {
-      font-size: 1.05rem;
+      font-size: var(--fs-lg);
       font-weight: 700;
-      line-height: 1.4;
+      line-height: var(--lh-snug);
       text-align: left;
     }
 
     p {
-      font-weight: 400;
       color: var(--gray-color);
-      margin-top: 5px;
     }
 
     .work-dates {
-      font-size: 0.8rem;
+      margin-top: var(--space-2);
+      font-size: var(--fs-xs);
       font-weight: 500;
       letter-spacing: 0.02em;
+    }
+
+    > .p-text {
+      margin-top: var(--space-3);
     }
 
     .tag-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 0.85rem;
+      gap: var(--space-2);
+      margin-top: var(--space-4);
 
       .tag {
-        padding: 0.2rem 0.6rem;
-        border-radius: 999px;
+        padding: 0.2rem 0.65rem;
+        border-radius: var(--radius-pill);
         background-color: var(--white-color);
+        border: 1px solid var(--border-color);
       }
 
       .tagName {
-        font-weight: 600;
-        font-size: 12px;
         margin: 0;
+        font-size: var(--fs-xs);
+        font-weight: 600;
       }
     }
   }
@@ -194,8 +178,8 @@
   .company-logo-container {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
 
     img {
       width: 22px;
@@ -205,7 +189,7 @@
 
     .company-name {
       margin-top: 0;
-      font-size: 0.9rem;
+      font-size: var(--fs-sm);
       font-weight: 600;
       color: var(--black-color);
       text-transform: uppercase;
@@ -214,24 +198,25 @@
   }
 
   .app__work-details {
-    // Was margin-left: 25%, which pushed the button to a different place in
-    // every card depending on the card width.
-    margin-top: 1rem;
+    // Was margin-left: 25%, which moved the button around depending on card width.
+    margin-top: var(--space-4);
     align-self: flex-start;
 
-    padding: 0.5rem 1.15rem;
+    padding: 0.5rem 1.1rem;
     border: none;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     background-color: var(--secondary-color);
     color: var(--white-color);
+
     font-family: var(--font-base);
+    font-size: var(--fs-sm);
     font-weight: 600;
     cursor: pointer;
 
-    transition: filter 0.25s ease;
+    transition: background-color 0.25s ease;
 
     &:hover {
-      filter: brightness(1.15);
+      background-color: var(--secondary-dark);
     }
   }
 }

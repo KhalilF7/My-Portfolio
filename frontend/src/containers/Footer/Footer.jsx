@@ -55,6 +55,11 @@ const Footer = () => {
         Take a coffee & <span>chat with me</span>
       </h2>
 
+      <p className="section-subtitle">
+        Open to software engineering and full stack developer roles. Send a message
+        and I will reply as soon as I can.
+      </p>
+
       <div className="app__footer-cards">
         <a href="mailto:fathaallikhalil@gmail.com" className="app__footer-card">
           <img src={images.email} alt="" aria-hidden="true" />

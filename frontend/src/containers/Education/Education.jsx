@@ -44,6 +44,11 @@ const Education = () => {
         My <span>Education</span>
       </h2>
 
+      <p className="section-subtitle">
+        Engineering degrees in computer science, with a focus on software
+        architecture and web development.
+      </p>
+
       {current && (
         <>
           <article className="app__education-item app__flex">

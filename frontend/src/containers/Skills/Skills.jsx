@@ -67,6 +67,11 @@ const Skills = () => {
         Skills & <span>Experience</span>
       </h2>
 
+      <p className="section-subtitle">
+        Five years of internships and professional web development across the
+        JavaScript, Java, PHP and Python ecosystems.
+      </p>
+
       <div className="app__skills-container">
         <motion.div className="app__skills-list">
           {skills.map((skill) => (

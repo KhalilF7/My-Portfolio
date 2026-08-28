@@ -1,6 +1,7 @@
 .app {
   background-color: var(--primary-color);
   font-family: var(--font-base);
+  overflow-x: hidden;
 }
 
 .app__whitebg {
@@ -13,14 +14,20 @@
 
 .app__container {
   width: 100%;
-  min-height: 100vh;
-
   display: flex;
   flex-direction: row;
 
-  // The navbar is fixed, so without this an anchor jump parks the section
-  // heading underneath it.
-  scroll-margin-top: 5rem;
+  /**
+   * Was a hard `min-height: 100vh`. On a tall monitor that stretched every
+   * section, and on mobile browsers 100vh includes the address bar so content
+   * got pushed under it. Sections are now only as tall as they need to be,
+   * with a comfortable floor.
+   */
+  min-height: 640px; // fallback where min() or svh is unsupported
+  min-height: min(100svh, 780px);
+
+  // The navbar is fixed, so without this an anchor jump parks the heading under it.
+  scroll-margin-top: var(--nav-height);
 }
 
 .app__flex {
@@ -34,11 +41,15 @@
   width: 100%;
   min-width: 0; // lets flex children shrink instead of forcing overflow
   flex-direction: column;
-  padding: 6rem 2rem 4rem;
+  padding: var(--section-py) var(--gutter);
+}
 
-  @media screen and (max-width: 450px) {
-    padding: 5rem 1rem 2rem;
-  }
+/* Caps and centres the content of every section. */
+.app__wrapper > *,
+.app__wrapper > .app__flex {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
 }
 
 /**
@@ -47,74 +58,72 @@
  */
 .app__copyright {
   width: 100%;
-  padding: 2rem;
+  padding: var(--space-6) var(--gutter);
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.25rem;
+  gap: var(--space-1);
 
   background-color: var(--black-color);
 
   p {
+    font-size: var(--fs-sm);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     color: var(--white-color);
     text-align: center;
   }
 }
 
+/* ---------------------------------------------------------------
+   Typography. One size per role, from the scale in index.css —
+   no more per-component overrides or 2000px doublings.
+   --------------------------------------------------------------- */
+
 .head-text {
-  font-size: 2.75rem;
+  font-size: var(--fs-3xl);
   font-weight: 800;
+  line-height: var(--lh-tight);
+  letter-spacing: -0.02em;
   text-align: center;
   color: var(--black-color);
   text-transform: capitalize;
-  line-height: 1.2;
 
   span {
     color: var(--secondary-color);
   }
+}
 
-  @media screen and (min-width: 2000px) {
-    font-size: 4rem;
-  }
-
-  @media screen and (max-width: 450px) {
-    font-size: 2rem;
-  }
+/* Sits under a .head-text to introduce a section. */
+.section-subtitle {
+  max-width: 46ch;
+  margin: var(--space-4) auto 0;
+  font-size: var(--fs-md);
+  line-height: var(--lh-normal);
+  color: var(--gray-color);
+  text-align: center;
 }
 
 .p-text {
-  font-size: 0.95rem;
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
   text-align: left;
   color: var(--gray-color);
-  line-height: 1.6;
-
-  @media screen and (min-width: 2000px) {
-    font-size: 1.75rem;
-  }
 }
 
 .bold-text {
-  font-size: 1rem;
-  font-weight: 800;
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  line-height: var(--lh-snug);
   color: var(--black-color);
   text-align: left;
-
-  @media screen and (min-width: 2000px) {
-    font-size: 2rem;
-  }
-
-  @media screen and (max-width: 450px) {
-    font-size: 0.9rem;
-  }
 }
 
 /**
  * Visible to screen readers and search engines, not on screen. Used for the
- * full h1 in the hero, and for the contact form labels.
+ * full h1 in the hero, the navigation dots and the contact form labels.
  */
 .sr-only {
   position: absolute;
@@ -135,52 +144,47 @@
   border-radius: 2px;
 }
 
+/* ---------------------------------------------------------------
+   Side rails
+   --------------------------------------------------------------- */
+
 .app__social {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   flex-direction: column;
+  gap: var(--space-2);
 
-  padding: 1rem;
+  padding: var(--space-4);
 
   div {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     background-color: var(--white-color);
-    margin: 0.25rem 0;
-    border: 1px solid var(--lightGray-color);
+    border: 1px solid var(--border-color);
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    transition: all 0.3s ease-in-out;
+    transition: transform 0.25s ease-in-out, background-color 0.25s ease-in-out,
+      border-color 0.25s ease-in-out;
 
     svg {
-      width: 15px;
-      height: 15px;
+      width: 16px;
+      height: 16px;
       color: var(--gray-color);
+      transition: color 0.25s ease-in-out;
     }
 
     &:hover {
       background-color: var(--secondary-color);
       border-color: var(--secondary-color);
+      transform: translateY(-2px);
 
       svg {
         color: var(--white-color);
-      }
-    }
-
-    @media screen and (min-width: 2000px) {
-      width: 70px;
-      height: 70px;
-
-      margin: 0.5rem 0;
-
-      svg {
-        width: 30px;
-        height: 30px;
       }
     }
   }
@@ -192,36 +196,32 @@
   align-items: center;
   flex-direction: column;
 
-  padding: 1rem;
+  padding: var(--space-4);
 
   .app__navigation-dot {
     width: 10px;
     height: 10px;
     border-radius: 50%;
     background-color: #cbcbcb;
-    margin: 0.5rem;
+    margin: 0.4rem;
 
     transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
 
     &:hover {
       background-color: var(--secondary-color);
-      transform: scale(1.2);
+      transform: scale(1.25);
     }
 
     // Was an inline style on the anchor; a class keeps styling in the stylesheet.
     &--active {
       background-color: var(--secondary-color);
-      transform: scale(1.3);
-    }
-
-    @media screen and (min-width: 2000px) {
-      width: 20px;
-      height: 20px;
+      transform: scale(1.35);
     }
   }
 }
 
-@media screen and (max-width: 500px) {
+// The rails are decorative; below tablet the content needs the full width.
+@media screen and (max-width: 900px) {
   .app__navigation,
   .app__social {
     display: none;
@@ -236,6 +236,5 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }

@@ -96,6 +96,11 @@ const Work = () => {
         My Creative <span>Portfolio</span>
       </h2>
 
+      <p className="section-subtitle">
+        Full stack web and mobile projects built with React, Angular, Spring Boot,
+        Laravel and Symfony.
+      </p>
+
       <div className="app__work-filter" role="tablist" aria-label="Filter projects by technology">
         {filters.map((item) => (
           <button
