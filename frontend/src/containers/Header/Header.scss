@@ -27,7 +27,9 @@
     align-items: center;
     gap: clamp(2rem, 4vw, 4.5rem);
 
-    padding: calc(var(--nav-height) + var(--space-8)) var(--gutter) var(--space-8);
+    // No bottom padding: the portrait is meant to sit flush with the bottom of
+    // the section.
+    padding: calc(var(--nav-height) + var(--space-8)) var(--gutter) 0;
 
     @media screen and (max-width: 1024px) {
       // Text first: the name and role matter more than the portrait.

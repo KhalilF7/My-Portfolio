@@ -4,14 +4,9 @@ import { motion } from 'framer-motion';
 
 import { AppWrap, MotionWrap } from '../../wrapper';
 import { imageUrl, client } from '../../client';
+import { formatDateRange } from '../../utils';
 import ProjectDetails from '../ProjectDetails/ProjectDetails';
 import './Skills.scss';
-
-const formatDate = (dateString) => {
-  if (!dateString) return '';
-  const [year, month, day] = dateString.split('-');
-  return `${day}/${month}/${year}`;
-};
 
 const Skills = () => {
   const [experiences, setExperiences] = useState([]);
@@ -118,7 +113,7 @@ const Skills = () => {
                     </div>
 
                     <p className="work-dates">
-                      {formatDate(work.startDate)} – {formatDate(work.endDate)}
+                      {formatDateRange(work.startDate, work.endDate)}
                     </p>
 
                     <p className="p-text">{work.desc}</p>

@@ -164,13 +164,30 @@
    Results carousel
    --------------------------------------------------------------- */
 
-.app__result-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  margin-top: var(--space-4);
+/**
+ * Real <button> controls. These were <div>s with onClick handlers, so keyboard
+ * users could not move through the results.
+ *
+ * They are positioned inside the figure, which has a fixed ratio, so they stay
+ * centred on the image. Sitting beside the whole panel, they moved out from
+ * under the cursor between slides because descriptions differ in length.
+ */
+.app__result-figure .app__result-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+
+  background-color: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow-md);
+
+  &.app__result-btn--prev {
+    left: var(--space-2);
+  }
+
+  &.app__result-btn--next {
+    right: var(--space-2);
+  }
 }
 
 /**
@@ -233,14 +250,65 @@
     font-weight: 700;
     text-align: left;
   }
+}
+
+/**
+ * Fixed-ratio frame for the slide image.
+ *
+ * The image used to size the panel itself, so each slide changed the panel's
+ * height and the arrows moved under the cursor. Reserving the space keeps the
+ * panel still while slides swap.
+ */
+.app__result-figure {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background-color: var(--white-color);
 
   img {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    height: auto;
-    max-height: 420px;
+    height: 100%;
     object-fit: contain;
-    border-radius: var(--radius-md);
-    background-color: var(--white-color);
+
+    // Fades in once preloaded rather than appearing abruptly.
+    opacity: 0;
+    transition: opacity 0.28s ease-in;
+
+    &.is-ready {
+      opacity: 1;
+    }
+  }
+}
+
+.app__result-skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    var(--surface-muted) 30%,
+    #eef1f6 50%,
+    var(--surface-muted) 70%
+  );
+  background-size: 200% 100%;
+  animation: app__skeleton-sweep 1.2s ease-in-out infinite;
+}
+
+@keyframes app__skeleton-sweep {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app__result-skeleton {
+    animation: none;
   }
 }
 

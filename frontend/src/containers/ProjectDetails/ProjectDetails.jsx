@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { HiChevronLeft, HiChevronRight, HiX } from 'react-icons/hi';
 
 import { imageUrl } from '../../client';
+import { formatDate, isOngoing } from '../../utils';
 import './ProjectDetails.scss';
 
 const OWNER = 'Khalil Fathalli';
@@ -29,23 +30,70 @@ const getOwnerModule = (members = []) => {
   return GENERIC_ROLES.includes(owner.role.trim().toLowerCase()) ? null : owner.role;
 };
 
-const formatDate = (dateString) => {
-  if (!dateString) return '';
-  const [year, month, day] = dateString.split('-');
-  return `${day}/${month}/${year}`;
-};
-
 const ProjectDetails = ({ project, onClose }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const technologies = project.technologies || [];
   const members = project.members || [];
-  const results = project.results || [];
+  // Memoised: `|| []` would hand back a new array on every render, re-running
+  // the preload effect below each time.
+  const results = useMemo(() => project.results || [], [project.results]);
 
   const ownerModule = getOwnerModule(members);
   const totalResults = results.length;
 
+  // Same URLs the <img> below renders, so the preload below hits the same cache entry.
+  const resultImages = useMemo(
+    () => results.map((result) => imageUrl(result.results, 700)),
+    [results],
+  );
+
+  /**
+   * Preload every result image as soon as the modal opens.
+   *
+   * The images used to be loading="lazy", so a slide's image only began
+   * downloading once you navigated to it: the first visit to each slide showed
+   * an empty frame and then the image popped in. Fetching them all up front
+   * means the swap is instant, and `readySrcs` lets the first one fade in
+   * instead of appearing abruptly.
+   */
+  const [readySrcs, setReadySrcs] = useState(() => new Set());
+
+  useEffect(() => {
+    let cancelled = false;
+
+    resultImages.forEach((src) => {
+      if (!src) return;
+
+      const markReady = () => {
+        if (cancelled) return;
+        setReadySrcs((prev) => {
+          if (prev.has(src)) return prev;
+          const next = new Set(prev);
+          next.add(src);
+          return next;
+        });
+      };
+
+      const img = new Image();
+      img.src = src;
+      if (img.complete) {
+        markReady();
+      } else {
+        img.onload = markReady;
+        // Treat a failed image as settled too, so it does not sit on the skeleton forever.
+        img.onerror = markReady;
+      }
+    });
+
+    return () => { cancelled = true; };
+  }, [resultImages]);
+
   const goToResult = (delta) => setCurrentIndex((i) => (i + delta + totalResults) % totalResults);
+
+  const currentResult = results[currentIndex];
+  const currentSrc = resultImages[currentIndex];
+  const isCurrentReady = !currentSrc || readySrcs.has(currentSrc);
 
   const resultsIntro = ownerModule
     ? `The functionality and user experience of the ${ownerModule} module I designed and developed.`
@@ -66,12 +114,20 @@ const ProjectDetails = ({ project, onClose }) => {
 
       <h2 className="app__project-details-title">{project.title}</h2>
 
-      {project.startDate && project.endDate && (
-        <p className="app__project-details-date">
-          This project ran from <strong>{formatDate(project.startDate)}</strong> to
-          {' '}
-          <strong>{formatDate(project.endDate)}</strong>.
-        </p>
+      {/* An ongoing project has no end date, so it gets its own sentence
+          rather than being hidden entirely. */}
+      {project.startDate && (
+        isOngoing(project.endDate) ? (
+          <p className="app__project-details-date">
+            Started <strong>{formatDate(project.startDate)}</strong> and still ongoing.
+          </p>
+        ) : (
+          <p className="app__project-details-date">
+            This project ran from <strong>{formatDate(project.startDate)}</strong> to
+            {' '}
+            <strong>{formatDate(project.endDate)}</strong>.
+          </p>
+        )
       )}
 
       <p className="app__project-details-description">{project.description}</p>
@@ -161,46 +217,58 @@ const ProjectDetails = ({ project, onClose }) => {
           <h3 className="app__project-details-section-title">Results</h3>
           <p className="app__project-details-section-content">{resultsIntro}</p>
 
-          <div className="app__result-container app__flex">
-            {totalResults > 1 && (
-              <button
-                type="button"
-                className="app__result-btn app__flex"
-                aria-label="Previous result"
-                onClick={() => goToResult(-1)}
-              >
-                <HiChevronLeft aria-hidden="true" />
-              </button>
-            )}
+          {/*
+            No key={currentIndex} on the panel any more. Keying on the index
+            remounted it on every step, which threw away the loaded <img> and
+            replayed a slide-in animation over an empty frame.
+          */}
+          <div className="app__result-item">
+            <h4 className="bold-text">{currentResult.title}</h4>
 
-            <motion.div
-              className="app__result-item app__flex"
-              key={currentIndex}
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-              <h4 className="bold-text">{results[currentIndex].title}</h4>
-              <img
-                src={imageUrl(results[currentIndex].results, 700)}
-                alt={results[currentIndex].title}
-                loading="lazy"
-              />
-              <div className="app__result-content">
-                <p className="p-text">{results[currentIndex].description}</p>
-              </div>
-            </motion.div>
+            {/*
+              The arrows live inside the figure so they stay centred on the
+              image. Sitting beside the whole panel, they shifted between slides
+              because descriptions differ in length.
+            */}
+            <div className="app__result-figure">
+              {currentSrc && (
+                <img
+                  src={currentSrc}
+                  alt={currentResult.title}
+                  // Eager: these are preloaded above and swapped by the arrows,
+                  // so there is nothing to defer.
+                  loading="eager"
+                  decoding="async"
+                  className={isCurrentReady ? 'is-ready' : ''}
+                />
+              )}
+              {!isCurrentReady && <span className="app__result-skeleton" aria-hidden="true" />}
 
-            {totalResults > 1 && (
-              <button
-                type="button"
-                className="app__result-btn app__flex"
-                aria-label="Next result"
-                onClick={() => goToResult(1)}
-              >
-                <HiChevronRight aria-hidden="true" />
-              </button>
-            )}
+              {totalResults > 1 && (
+                <>
+                  <button
+                    type="button"
+                    className="app__result-btn app__result-btn--prev app__flex"
+                    aria-label="Previous result"
+                    onClick={() => goToResult(-1)}
+                  >
+                    <HiChevronLeft aria-hidden="true" />
+                  </button>
+                  <button
+                    type="button"
+                    className="app__result-btn app__result-btn--next app__flex"
+                    aria-label="Next result"
+                    onClick={() => goToResult(1)}
+                  >
+                    <HiChevronRight aria-hidden="true" />
+                  </button>
+                </>
+              )}
+            </div>
+
+            <div className="app__result-content">
+              <p className="p-text">{currentResult.description}</p>
+            </div>
           </div>
 
           {totalResults > 1 && (

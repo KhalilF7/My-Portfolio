@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 
 import { AppWrap, MotionWrap } from '../../wrapper';
 import { imageUrl, client } from '../../client';
+import { formatDateRange } from '../../utils';
 import ProjectDetails from '../ProjectDetails/ProjectDetails';
 import './Work.scss';
 
@@ -13,12 +14,6 @@ const ALL = 'All';
 // Works carry a literal "All" tag alongside their real ones; it is a filter
 // sentinel, not a label worth showing on the card.
 const primaryTag = (work) => (work.tags || []).find((tag) => tag !== ALL);
-
-const formatDate = (dateString) => {
-  if (!dateString) return '';
-  const [year, month, day] = dateString.split('-');
-  return `${day}/${month}/${year}`;
-};
 
 const Work = () => {
   const [works, setWorks] = useState([]);
@@ -162,7 +157,7 @@ const Work = () => {
             <div className="app__work-content app__flex">
               <h3 className="bold-text">{work.title}</h3>
               <p className="p-text work-dates">
-                {formatDate(work.startDate)} – {formatDate(work.endDate)}
+                {formatDateRange(work.startDate, work.endDate)}
               </p>
               <p className="p-text work-description">{work.description}</p>
 
