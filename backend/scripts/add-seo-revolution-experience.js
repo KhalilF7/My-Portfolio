@@ -494,8 +494,10 @@ async function captureScreenshots(projects) {
 
   let puppeteer;
   try {
-    // eslint-disable-next-line global-require, import/no-extraneous-dependencies
-    puppeteer = require('puppeteer');
+    // Dynamic import, not require: current Puppeteer ships as ESM only, so
+    // require('puppeteer') throws ERR_REQUIRE_ESM from this CommonJS script.
+    const mod = await import('puppeteer');
+    puppeteer = mod.default || mod;
   } catch {
     console.error(
       '\nPuppeteer is not installed, so screenshots cannot be captured.\n'
