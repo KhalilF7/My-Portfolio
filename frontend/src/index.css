@@ -1,20 +1,121 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
+/* The font is loaded via a <link> in public/index.html. An @import here would
+   chain a second request behind this stylesheet, delaying first paint. */
 
+/**
+ * Design tokens.
+ *
+ * Sizes were previously hardcoded per component and then doubled inside
+ * `@media (min-width: 2000px)` blocks, so on a large monitor body text jumped to
+ * 28px, section headings to 64px and one hero circle to 400px. Every size now
+ * comes from one fluid scale that grows with the viewport and stops at a sane
+ * maximum, so there is a single standard size for each kind of text.
+ */
 :root {
-  --font-base: "DM Sans", sans-serif;
+  --font-base: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
+  /* Colours */
   --primary-color: #edf2f8;
   --secondary-color: #313bac;
+  --secondary-dark: #262e88;
   --black-color: #030303;
   --lightGray-color: #e4e4e4;
   --gray-color: #6b7688;
   --brown-color: #46364a;
   --white-color: #ffffff;
+  --border-color: #e6ebf2;
+  --surface-muted: #f7f9fc;
+
+  /**
+   * Type scale. Each step is clamp(min, preferred, max): the min holds on
+   * phones, the vw term scales through tablet and laptop, the max stops growth
+   * so a 4K monitor does not get oversized text.
+   */
+  --fs-xs: clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem);      /* 12 → 13 */
+  --fs-sm: clamp(0.8125rem, 0.79rem + 0.12vw, 0.875rem);    /* 13 → 14 */
+  --fs-base: clamp(0.9375rem, 0.91rem + 0.16vw, 1.0625rem); /* 15 → 17 */
+  --fs-md: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);          /* 16 → 18 */
+  --fs-lg: clamp(1.0625rem, 1rem + 0.3vw, 1.3125rem);       /* 17 → 21 */
+  --fs-xl: clamp(1.1875rem, 1.08rem + 0.45vw, 1.5rem);      /* 19 → 24 */
+  --fs-2xl: clamp(1.375rem, 1.2rem + 0.8vw, 1.875rem);      /* 22 → 30 */
+  --fs-3xl: clamp(1.75rem, 1.45rem + 1.3vw, 2.625rem);      /* 28 → 42 */
+  --fs-hero: clamp(2.25rem, 1.85rem + 1.8vw, 3.5rem);       /* 36 → 56 */
+
+  --lh-tight: 1.2;
+  --lh-snug: 1.4;
+  --lh-normal: 1.6;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+  --space-10: 4rem;
+
+  /* Vertical breathing room inside a section, and the gutter at the edges. */
+  --section-py: clamp(4.5rem, 4rem + 4vw, 7rem);
+  --gutter: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+
+  /**
+   * Content is capped and centred. Without this, every section stretched edge
+   * to edge on a wide monitor, which is what made the layout feel oversized.
+   */
+  --container: 1200px;
+  --container-wide: 1440px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 2px 8px rgba(16, 24, 40, 0.06);
+  --shadow-md: 0 10px 26px rgba(16, 24, 40, 0.08);
+  --shadow-lg: 0 20px 48px rgba(16, 24, 40, 0.13);
+
+  --nav-height: 4.5rem;
 }
 
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+html {
+  /* Was on `*`, which applies it to every element rather than the scroll root. */
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-base);
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
+  color: var(--black-color);
+  background-color: var(--primary-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Stops a long unbroken word or URL from forcing a horizontal scrollbar. */
+h1, h2, h3, h4, h5, h6, p, a, li {
+  overflow-wrap: break-word;
+}
+
+img {
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

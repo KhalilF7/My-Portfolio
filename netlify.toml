@@ -1,0 +1,39 @@
+# Explicit build config so deploys are reproducible from the repo rather than
+# depending on settings typed into the Netlify dashboard.
+
+[build]
+  command = "npm --prefix frontend ci && npm --prefix frontend run build"
+  publish = "frontend/build"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "20"
+  # CRA treats warnings as errors on CI by default, which fails the build for
+  # things like an unused import. Warnings still show in the build log.
+  CI = "false"
+
+# Single-page app: every route must fall through to index.html, but /api/* has
+# to reach the functions first or it would be swallowed by the catch-all below.
+[[redirects]]
+  from = "/api/contact"
+  to = "/.netlify/functions/contact"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# Hashed asset filenames can be cached forever.
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

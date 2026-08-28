@@ -5,222 +5,233 @@
   background-position: center;
   background-repeat: repeat;
 
-  // disable the default padding styles
+  // The hero manages its own padding so it can sit wider than other sections.
   .app__wrapper {
     padding: 0;
+  }
 
-    .copyright {
-      display: none;
+  /**
+   * The hero used to be a 100vh flex row of three columns (text, image, and a
+   * column holding three decorative circles) with no width cap. On a large
+   * monitor that stretched edge to edge and one circle grew to 400px, which is
+   * what made the header feel oversized. It is now a capped two-column grid
+   * with a bounded height.
+   */
+  .app__header {
+    width: 100%;
+    max-width: var(--container-wide);
+    margin-inline: auto;
+
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: center;
+    gap: clamp(2rem, 4vw, 4.5rem);
+
+    // No bottom padding: the portrait is meant to sit flush with the bottom of
+    // the section.
+    padding: calc(var(--nav-height) + var(--space-8)) var(--gutter) 0;
+
+    @media screen and (max-width: 1024px) {
+      // Text first: the name and role matter more than the portrait.
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+      gap: var(--space-7);
+      padding-top: calc(var(--nav-height) + var(--space-6));
     }
-  }
-}
-
-.app__header {
-  flex: 1;
-  width: 100%;
-  height: 100%;
-  flex-direction: row;
-
-  padding: 6rem 2rem 0rem;
-
-  @media screen and (min-width: 2000px) {
-    padding-top: 8rem;
-  }
-
-  @media screen and (max-width: 1200px) {
-    flex-direction: column;
-  }
-
-  @media screen and (max-width: 450px) {
-    padding: 6rem 1rem 2rem;
   }
 }
 
 .app__header-info {
-  flex: 0.65;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: flex-start;
-  height: 100%;
 
-  margin: 0 2rem;
-
-  @media screen and (max-width: 1200px) {
-    width: 100%;
-    margin-right: 0rem;
+  @media screen and (max-width: 1024px) {
+    align-items: center;
   }
 }
 
-.app__header-badge {
-  width: 100%;
+.app__header-greeting {
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
 
-  .badge-cmp,
-  .tag-cmp {
-    padding: 1rem 2rem;
-    background: var(--white-color);
-    border-radius: 15px;
-    flex-direction: row;
-    width: auto;
-
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-  }
-
-  .tag-cmp {
-    flex-direction: column;
-    margin-top: 3rem;
-
-    p {
-      width: 100%;
-      text-transform: uppercase;
-      text-align: right;
-    }
-  }
+  font-size: var(--fs-md);
+  font-weight: 500;
+  color: var(--gray-color);
 
   span {
-    font-size: 2.5rem;
-
-    @media screen and (min-width: 2000px) {
-      font-size: 5rem;
-    }
-  }
-
-  @media screen and (max-width: 1200px) {
-    justify-content: flex-start;
-    align-items: flex-start;
+    // Was 2.5rem, doubling to 5rem on large screens.
+    font-size: var(--fs-2xl);
+    line-height: 1;
   }
 }
 
-.app__header-circles {
-  flex: 0.75;
+.app__header-name {
+  margin-top: var(--space-2);
+  font-size: var(--fs-hero);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--black-color);
+}
+
+.app__header-role {
+  margin-top: var(--space-2);
+  font-size: var(--fs-xl);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+  color: var(--secondary-color);
+}
+
+.app__header-blurb {
+  max-width: 46ch;
+  margin-top: var(--space-4);
+  font-size: var(--fs-md);
+  line-height: var(--lh-normal);
+  color: var(--gray-color);
+}
+
+.app__header-ctas {
   display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: flex-start;
-  height: 100%;
-  margin-left: 1rem;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
 
-  div {
-    width: 100px;
-    height: 100px;
+  @media screen and (max-width: 1024px) {
+    justify-content: center;
+  }
+}
+
+/* Small "working with" strip, replacing the oversized circle column. */
+.app__header-stack {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-7);
+}
+
+.app__header-stack-label {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gray-color);
+}
+
+.app__header-stack-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  list-style: none;
+
+  li {
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
+    background-color: var(--white-color);
+    box-shadow: var(--shadow-sm);
 
-    background: var(--white-color);
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: transform 0.25s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+    }
 
     img {
-      width: 60%;
-      height: 60%;
-    }
-  }
-
-  // circles with different height & width
-
-  div:nth-child(1) {
-    width: 100px;
-    height: 100px;
-  }
-
-  div:nth-child(2) {
-    margin: 1.75rem;
-    width: 150px;
-    height: 150px;
-  }
-
-  div:nth-child(3) {
-    width: 70px;
-    height: 70px;
-  }
-
-  @media screen and (min-width: 2000px) {
-    div:nth-child(2) {
-      width: 400px;
-      height: 400px;
-    }
-
-    div:nth-child(3) {
-      width: 170px;
-      height: 170px;
-    }
-
-    div:nth-child(1) {
-      width: 200px;
-      height: 200px;
-    }
-  }
-
-  @media screen and (max-width: 1200px) {
-    width: 100%;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin-left: 0;
-
-    div {
-      margin: 1rem;
+      width: 55%;
+      height: 55%;
+      object-fit: contain;
     }
   }
 }
 
 .app__header-img {
-  flex: 1;
-  height: 100%;
-
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
   position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 
-  img {
-    width: 80%;
+  .app__header-portrait {
+    // Capped so the portrait does not grow without limit on a wide monitor.
+    width: 100%;
+    max-width: clamp(260px, 34vw, 440px);
+    height: auto;
     object-fit: contain;
     z-index: 1;
   }
 
-  .overlay_circle {
+  .app__header-circle {
     position: absolute;
-    left: 0;
-    right: 0;
     bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: clamp(280px, 38vw, 500px);
+    height: auto;
     z-index: 0;
-    width: 95%;
-    height: 90%;
-    margin-left: 5%;
   }
 
-  @media screen and (max-width: 1200px) {
-    margin: 2rem 0;
+  @media screen and (max-width: 1024px) {
+    margin-top: var(--space-4);
   }
 }
 
-.cta-btn {
-  background: var(--white-color);
-  color: var(--gray-color);
-  border: none;
-  padding: 1rem 2rem;
-  font-size: 1rem;
-  cursor: pointer;
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
-  margin-top: 30px;
-  display: flex;
+/* ---------------------------------------------------------------
+   Buttons. The old .cta-btn was a 100px circle (border-radius: 50%
+   with a fixed 100x100 size) containing the words "Explore My
+   Projects", so the label was cramped inside a circle.
+   --------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  transition: background 0.3s;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+
+  padding: 0.85rem 1.65rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+
+  font-family: var(--font-base);
+  font-size: var(--fs-base);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+
+  transition: background-color 0.25s ease, color 0.25s ease,
+    border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 
   &:hover {
-    background: var(--secondary-color);
-    color: var(--primary-color);
+    transform: translateY(-2px);
   }
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-  cursor: inherit;
+.btn--primary {
+  background-color: var(--secondary-color);
+  color: var(--white-color);
+  box-shadow: var(--shadow-md);
+
+  &:hover {
+    background-color: var(--secondary-dark);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.btn--ghost {
+  background-color: var(--white-color);
+  border-color: var(--border-color);
+  color: var(--black-color);
+
+  &:hover {
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+  }
 }

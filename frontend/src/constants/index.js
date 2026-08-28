@@ -1,3 +1,4 @@
 import images from './images';
+import SECTIONS from './sections';
 
-export { images };
+export { images, SECTIONS };

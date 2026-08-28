@@ -1,79 +1,94 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+
 import { AppWrap } from '../../wrapper';
-
 import { images } from '../../constants';
-
 import './Header.scss';
 
-const scaleVariants = {
-    whileInView: {
-        scale: [0, 1],
-        opacity: [0, 1],
-        transition: {
-            duration: 1,
-            ease: 'easeInOut'
-        }
-    }
-}
+// Shown as a small "working with" strip under the intro.
+const STACK = [
+  { name: 'React', icon: images.react },
+  { name: 'Angular', icon: images.angular },
+  { name: 'Node.js', icon: images.node },
+  { name: 'Spring Boot', icon: images.spring },
+  { name: 'Laravel', icon: images.laravel },
+];
 
-const Header = () => {
-    return (
-        <div className='app__header app__flex'>
-            <motion.div
-                whileInView={{ x: [-100, 0], opacity: [0, 1] }}
-                transition={{ duration: 0.5 }}
-                className='app__header-info'
-            >
-                <div className='app__header-badge'>
-                    <div className='badge-cmp app__flex'>
-                        <span>👋</span>
-                        <div style={{ marginLeft: 20 }}>
-                            <p className='p-text'>Hello, I am</p>
-                            <h1 className='head-text'>Khalil</h1>
-                        </div>
-                    </div>
-                    <div className='tag-cmp app__flex'>
-                        <p className='p-text'>Software Engineer</p>
-                        <p className='p-text'>Full Stack Web Developer</p>
-                    </div>
-                    <a href='#work'>
-                        <motion.button className='cta-btn'>
-                            Explore My Projects
-                        </motion.button>
-                    </a>
-                </div>
-            </motion.div>
+const Header = () => (
+  <header className="app__header">
+    <motion.div
+      initial={{ x: -40, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+      className="app__header-info"
+    >
+      <p className="app__header-greeting">
+        <span aria-hidden="true">👋</span> Hello, I am
+      </p>
 
-            <motion.div
-                whileInView={{ opacity: [0, 1] }}
-                transition={{ duration: 0.5, delayChildren: 0.5 }}
-                className='app__header-img'
-            >
-                <img src={images.profile} alt='profile_bg' />
-                <motion.img
-                    whileInView={{ scale: [0, 1] }}
-                    transition={{ duration: 1, ease: 'easeInOut' }}
-                    src={images.circle}
-                    alt='profile_circle'
-                    className='overlay_circle'
-                />
+      {/*
+        The page's single h1. The hidden half gives search engines and screen
+        readers the full name and role — an h1 of just "Khalil" tells them
+        very little, and "software engineer" is the term employers search for.
+      */}
+      <h1 className="app__header-name">
+        Khalil
+        <span className="sr-only"> Fathalli — Software Engineer and Full Stack Web Developer</span>
+      </h1>
 
-            </motion.div>
+      <p className="app__header-role">Software Engineer &amp; Full&nbsp;Stack Web Developer</p>
 
-            <motion.div
-                variants={scaleVariants}
-                whileInView={scaleVariants.whileInView}
-                className='app__header-circles'
-            >
-                {[images.react, images.angular, images.redux].map((circle, index) => (
-                    <div className='circle-cmp app__flex' key={`circle-${index}`}>
-                        <img src={circle} alt='circle' />
-                    </div>
-                ))}
-            </motion.div>
-        </div>
-    );
-}
+      <p className="app__header-blurb">
+        Master of Engineering in Computer Science, building fast, accessible web
+        applications end to end — from database and API through to the interface
+        people actually use.
+      </p>
+
+      <div className="app__header-ctas">
+        <a href="#work" className="btn btn--primary">
+          Explore my projects
+        </a>
+        <a href="#contact" className="btn btn--ghost">
+          Get in touch
+        </a>
+      </div>
+
+      <div className="app__header-stack">
+        <p className="app__header-stack-label">Working with</p>
+        <ul className="app__header-stack-list">
+          {STACK.map(({ name, icon }) => (
+            <li key={name} title={name}>
+              <img src={icon} alt={name} loading="lazy" />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </motion.div>
+
+    <motion.div
+      initial={{ opacity: 0, scale: 0.94 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6, ease: 'easeOut', delay: 0.15 }}
+      className="app__header-img"
+    >
+      {/*
+        The hero image is the largest paint on first load, so it is eager and
+        high priority rather than lazy.
+      */}
+      <img
+        src={images.profile}
+        alt="Khalil Fathalli, software engineer"
+        fetchpriority="high"
+        className="app__header-portrait"
+      />
+      <img
+        src={images.circle}
+        alt=""
+        aria-hidden="true"
+        className="app__header-circle"
+      />
+    </motion.div>
+  </header>
+);
 
 export default AppWrap(Header, 'home');

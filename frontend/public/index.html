@@ -2,16 +2,161 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="./logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Web site created using create-react-app" />
-    <link rel="apple-touch-icon" href="./logo.png" />
+    <meta name="theme-color" content="#313bac" />
+
+    <title>Khalil Fathalli — Software Engineer &amp; Full Stack Web Developer</title>
+    <meta
+      name="description"
+      content="Khalil Fathalli is a software engineer and full stack web developer with a Master of Engineering in Computer Science. Portfolio of React, Angular, Node.js, Spring Boot, Laravel and Symfony projects."
+    />
+    <meta name="author" content="Khalil Fathalli" />
+    <link rel="canonical" href="https://khalilf-portfolio.netlify.app/" />
+
+    <link rel="icon" href="%PUBLIC_URL%/logo.png" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>Khalil Fathalli</title>
+
+    <!--
+      Fonts are linked here rather than @import-ed from index.css. An @import
+      chains a second request behind the stylesheet, delaying first paint.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap"
+    />
+    <!-- Sanity serves every content image on the page. -->
+    <link rel="preconnect" href="https://cdn.sanity.io" />
+
+    <!-- Open Graph: controls how the link previews on LinkedIn, Slack, WhatsApp. -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content="https://khalilf-portfolio.netlify.app/" />
+    <meta property="og:site_name" content="Khalil Fathalli" />
+    <meta property="og:title" content="Khalil Fathalli — Software Engineer &amp; Full Stack Web Developer" />
+    <meta
+      property="og:description"
+      content="Software engineer and full stack web developer. Portfolio of React, Angular, Node.js, Spring Boot, Laravel and Symfony projects."
+    />
+    <meta property="og:image" content="https://khalilf-portfolio.netlify.app/logo512.png" />
+    <meta property="og:image:alt" content="Khalil Fathalli" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="profile:first_name" content="Khalil" />
+    <meta property="profile:last_name" content="Fathalli" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Khalil Fathalli — Software Engineer &amp; Full Stack Web Developer" />
+    <meta
+      name="twitter:description"
+      content="Software engineer and full stack web developer. Portfolio of React, Angular, Node.js, Spring Boot, Laravel and Symfony projects."
+    />
+    <meta name="twitter:image" content="https://khalilf-portfolio.netlify.app/logo512.png" />
+
+    <!--
+      Structured data. This sits in the static HTML, so search engines read it
+      without running any JavaScript — which matters here, because the page
+      content itself is fetched client-side from Sanity.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "ProfilePage",
+            "@id": "https://khalilf-portfolio.netlify.app/#page",
+            "url": "https://khalilf-portfolio.netlify.app/",
+            "name": "Khalil Fathalli — Software Engineer & Full Stack Web Developer",
+            "inLanguage": "en",
+            "mainEntity": { "@id": "https://khalilf-portfolio.netlify.app/#person" }
+          },
+          {
+            "@type": "Person",
+            "@id": "https://khalilf-portfolio.netlify.app/#person",
+            "name": "Khalil Fathalli",
+            "givenName": "Khalil",
+            "familyName": "Fathalli",
+            "url": "https://khalilf-portfolio.netlify.app/",
+            "image": "https://khalilf-portfolio.netlify.app/logo512.png",
+            "jobTitle": "Software Engineer",
+            "description": "Software engineer and full stack web developer with a Master of Engineering in Computer Science, building web applications end to end.",
+            "email": "mailto:fathaallikhalil@gmail.com",
+            "telephone": "+21690666515",
+            "knowsLanguage": ["en", "fr", "ar"],
+            "alumniOf": [
+              {
+                "@type": "CollegeOrUniversity",
+                "name": "ESPRIT — Private School of Engineering and Technology"
+              },
+              {
+                "@type": "CollegeOrUniversity",
+                "name": "Higher Institute of Technological Studies of Nabeul (ISETN)"
+              }
+            ],
+            "hasCredential": {
+              "@type": "EducationalOccupationalCredential",
+              "credentialCategory": "degree",
+              "educationalLevel": "Master of Engineering",
+              "name": "Master of Engineering in Computer Science"
+            },
+            "knowsAbout": [
+              "Software Engineering",
+              "Full Stack Web Development",
+              "JavaScript",
+              "TypeScript",
+              "React",
+              "Redux",
+              "Angular",
+              "Vue.js",
+              "Node.js",
+              "Java",
+              "Spring Boot",
+              "PHP",
+              "Laravel",
+              "Symfony",
+              "Python",
+              "Django",
+              "PostgreSQL",
+              "MySQL",
+              "MongoDB",
+              "Docker",
+              "Jenkins",
+              "Git",
+              "Scrum"
+            ],
+            "sameAs": [
+              "https://www.linkedin.com/in/khalil-fathalli/",
+              "https://github.com/KhalilF7",
+              "https://www.xing.com/profile/Khalil_Fathalli"
+            ]
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <!--
+      Fallback for crawlers and visitors without JavaScript. The portfolio
+      content is fetched from Sanity at runtime, so without this the page would
+      be completely blank for them.
+    -->
+    <noscript>
+      <h1>Khalil Fathalli — Software Engineer &amp; Full Stack Web Developer</h1>
+      <p>
+        I hold a Master of Engineering in Computer Science from ESPRIT and work
+        across the stack, from database and API through to the interface.
+      </p>
+      <p>
+        Experience with React, Angular, Vue.js, Node.js, Spring Boot, Laravel,
+        Symfony, Django, PostgreSQL, MySQL, MongoDB, Docker and Jenkins.
+      </p>
+      <p>
+        Contact: <a href="mailto:fathaallikhalil@gmail.com">fathaallikhalil@gmail.com</a>
+        &middot; <a href="https://www.linkedin.com/in/khalil-fathalli/">LinkedIn</a>
+        &middot; <a href="https://github.com/KhalilF7">GitHub</a>
+      </p>
+      <p>This portfolio needs JavaScript enabled to display the full project list.</p>
+    </noscript>
     <div id="root"></div>
   </body>
 </html>

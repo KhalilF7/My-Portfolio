@@ -1,27 +1,29 @@
-import React from "react";
+import React from 'react';
 import { BsLinkedin, BsGithub } from 'react-icons/bs';
 import { FaXingSquare } from 'react-icons/fa';
 
-const SocialMedia = () => {
-    return (
-        <div className="app__social">
-            <a href="https://www.linkedin.com/in/khalil-fathalli/">
-                <div>
-                    <BsLinkedin />
-                </div>
-            </a>
-            <a href="https://www.xing.com/profile/Khalil_Fathalli">
-                <div>
-                    <FaXingSquare />
-                </div>
-            </a>
-            <a href="https://github.com/KhalilF7">
-                <div>
-                    <BsGithub />
-                </div>
-            </a>
+const PROFILES = [
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/khalil-fathalli/', Icon: BsLinkedin },
+  { label: 'Xing', href: 'https://www.xing.com/profile/Khalil_Fathalli', Icon: FaXingSquare },
+  { label: 'GitHub', href: 'https://github.com/KhalilF7', Icon: BsGithub },
+];
+
+const SocialMedia = () => (
+  <div className="app__social">
+    {PROFILES.map(({ label, href, Icon }) => (
+      <a
+        key={label}
+        href={href}
+        target="_blank"
+        rel="noreferrer noopener"
+        aria-label={`${label} profile (opens in a new tab)`}
+      >
+        <div>
+          <Icon aria-hidden="true" />
         </div>
-    )
-}
+      </a>
+    ))}
+  </div>
+);
 
 export default SocialMedia;

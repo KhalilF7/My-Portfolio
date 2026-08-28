@@ -1,18 +1,20 @@
-import React from "react";
+import React from 'react';
 
-const NavigationDots = ({ active }) => {
-    return (
-        <div className="app__navigation">
-            {['home', 'about', 'work', 'skills & experience', 'education', 'contact'].map((item, index) => (
-                <a 
-                    href={`#${item}`} 
-                    key={item + index}
-                    className='app__navigation-dot'
-                    style={active === item ? { backgroundColor: '#313BAC' } : { }}
-                />
-              ))}
-        </div>
-    )
-}
+import { SECTIONS } from '../constants';
+
+const NavigationDots = ({ active }) => (
+  <div className="app__navigation">
+    {SECTIONS.map(({ id, label }) => (
+      <a
+        href={`#${id}`}
+        key={id}
+        className={`app__navigation-dot ${active === id ? 'app__navigation-dot--active' : ''}`}
+      >
+        {/* The dot itself is decorative CSS, so the link needs readable text. */}
+        <span className="sr-only">{`Go to ${label}`}</span>
+      </a>
+    ))}
+  </div>
+);
 
 export default NavigationDots;
