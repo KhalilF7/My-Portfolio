@@ -262,3 +262,104 @@
         }
     }
 }
+/* ---------------------------------------------------------------
+   Additions: close button, real <button> carousel controls, and
+   flexible heights. The result panel was pinned to 550px (650px on
+   mobile) regardless of how much content it held.
+   --------------------------------------------------------------- */
+
+.app__project-details {
+  position: relative;
+}
+
+.app__project-details-close {
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: var(--primary-color);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: all 0.25s ease-in-out;
+
+  svg {
+    width: 22px;
+    height: 22px;
+    color: var(--gray-color);
+  }
+
+  &:hover {
+    background-color: var(--secondary-color);
+
+    svg {
+      color: var(--white-color);
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    top: -1.75rem;
+    right: -0.25rem;
+  }
+}
+
+.app__result-btn {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: var(--lightGray-color);
+
+  margin: 0 0.75rem;
+  transition: all 0.3s ease-in-out;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    color: var(--secondary-color);
+  }
+
+  &:hover {
+    background-color: var(--secondary-color);
+
+    svg {
+      color: var(--white-color);
+    }
+  }
+}
+
+.app__result-counter {
+  margin-top: 0.75rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+// Override the fixed heights from the rules above.
+.app__result-container {
+  @media screen and (max-width: 600px) {
+    height: auto;
+  }
+}
+
+.app__result-item {
+  height: auto;
+  gap: 0.75rem;
+  padding: 1rem;
+
+  img {
+    width: 100%;
+    height: auto;
+    max-height: 420px;
+    object-fit: contain;
+    border-radius: 10px;
+  }
+}

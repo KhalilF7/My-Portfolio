@@ -5,13 +5,9 @@
   background-position: center;
   background-repeat: repeat;
 
-  // disable the default padding styles
+  // The hero fills the section itself, so the wrapper padding is removed here.
   .app__wrapper {
     padding: 0;
-
-    .copyright {
-      display: none;
-    }
   }
 }
 

@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Khalil Fathalli",
+  "name": "Khalil Fathalli — Software Engineer & Full Stack Web Developer",
+  "description": "Portfolio of Khalil Fathalli, software engineer and full stack web developer.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,7 +11,8 @@
     {
       "src": "logo192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
       "src": "logo512.png",
@@ -20,6 +22,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#313bac",
+  "background_color": "#edf2f8"
 }

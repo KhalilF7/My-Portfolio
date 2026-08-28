@@ -171,3 +171,42 @@
       display: none;
     }
   }
+/* ---------------------------------------------------------------
+   Additions: active-link state and real <button> elements for the
+   mobile menu (they were bare <svg> icons, so keyboard users could
+   not open or close the menu).
+   --------------------------------------------------------------- */
+
+.app__navbar-links {
+  li.is-active {
+    div {
+      background: var(--secondary-color);
+    }
+
+    a {
+      color: var(--secondary-color);
+      font-weight: 700;
+    }
+  }
+}
+
+.app__navbar-menu-toggle,
+.app__navbar-menu-close {
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app__navbar-menu-toggle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.app__navbar-menu-close {
+  align-self: flex-end;
+}
