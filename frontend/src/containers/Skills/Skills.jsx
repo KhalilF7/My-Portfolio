@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 import { AppWrap, MotionWrap } from '../../wrapper';
 import { imageUrl, client } from '../../client';
-import { formatDateRange } from '../../utils';
+import { formatDateRange, initialsFor } from '../../utils';
 import ProjectDetails from '../ProjectDetails/ProjectDetails';
 import './Skills.scss';
 
@@ -63,8 +63,8 @@ const Skills = () => {
       </h2>
 
       <p className="section-subtitle">
-        Five years of internships and professional web development across the
-        JavaScript, Java, PHP and Python ecosystems.
+        Currently building and maintaining client websites at a German web agency,
+        after internships across the JavaScript, Java, PHP and Python ecosystems.
       </p>
 
       <div className="app__skills-container">
@@ -77,7 +77,17 @@ const Skills = () => {
               key={skill._id || skill.name}
             >
               <div className="app__flex" style={{ backgroundColor: skill.bgColor }}>
-                <img src={imageUrl(skill.icon, 60)} alt={skill.name} loading="lazy" />
+                {/*
+                  Not every skill has a logo — "SEO" has no product artwork.
+                  Without this guard, src={undefined} rendered a broken image.
+                */}
+                {skill.icon ? (
+                  <img src={imageUrl(skill.icon, 60)} alt={skill.name} loading="lazy" />
+                ) : (
+                  <span className="app__skills-item-initials" aria-hidden="true">
+                    {initialsFor(skill.name)}
+                  </span>
+                )}
               </div>
               <p className="p-text">{skill.name}</p>
             </motion.div>

@@ -43,6 +43,35 @@ const path = require('path');
 
 const API_VERSION = '2022-12-11';
 
+/**
+ * Loads KEY=value lines from backend/.env.local into process.env, without
+ * overwriting anything already set.
+ *
+ * This exists so the write token never has to be typed on a command line,
+ * where it would land in shell history. The file is git-ignored.
+ */
+function loadEnvFile() {
+  const file = path.join(__dirname, '..', '.env.local');
+  if (!fs.existsSync(file)) return;
+
+  fs.readFileSync(file, 'utf8').split(/\r?\n/).forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) return;
+
+    const eq = trimmed.indexOf('=');
+    if (eq === -1) return;
+
+    const key = trimmed.slice(0, eq).trim();
+    // Strip optional surrounding quotes.
+    const value = trimmed.slice(eq + 1).trim().replace(/^(['"])(.*)\1$/, '$2');
+    if (key && !process.env[key]) process.env[key] = value;
+  });
+
+  console.log('Loaded settings from backend/.env.local');
+}
+
+loadEnvFile();
+
 const projectId = process.env.SANITY_PROJECT_ID;
 const token = process.env.SANITY_WRITE_TOKEN;
 const dataset = process.env.SANITY_DATASET || 'production';
@@ -55,6 +84,33 @@ const stagingAuth = process.env.STAGING_USER && process.env.STAGING_PASS
   : null;
 
 const screenshotDir = process.env.SCREENSHOT_DIR || null;
+const logoDir = process.env.LOGO_DIR || null;
+
+/**
+ * Skills added to the Skills grid, which had no WordPress entry at all despite
+ * it being the day-to-day stack.
+ *
+ * Logo URLs were each checked to return an image before being listed here.
+ * Drop a file named <same as `file`> into a folder and set LOGO_DIR to use your
+ * own artwork instead of downloading.
+ */
+const SKILLS_TO_ADD = [
+  { name: 'WordPress', file: 'wordpress.png', url: 'https://s.w.org/images/wmark.png' },
+  { name: 'Bricks Builder', file: 'bricks-builder.svg', url: 'https://academy.bricksbuilder.io/favicon.svg' },
+  { name: 'Oxygen Builder', file: 'oxygen-builder.png', url: 'https://oxygenbuilder.com/wp-content/uploads/2025/01/oxygen-favicon.png' },
+  { name: 'Automatic.css', file: 'automatic-css.png', url: 'https://automaticcss.com/wp-content/uploads/2023/03/cropped-acss-icon-boxed-180x180.png' },
+  { name: 'BricksExtras', file: 'bricksextras.png', url: 'https://bricksextras.com/wp-content/uploads/2026/07/cropped-favicon-180x180.png' },
+  { name: 'Bricksforge', file: 'bricksforge.png', url: 'https://bricksforge.io/wp-content/uploads/2022/09/cropped-bricksforge-logo-180x180.png' },
+  { name: 'Advanced Themer', file: 'advanced-themer.png', url: 'https://advancedthemer.com/wp-content/uploads/2023/02/cropped-favicon_advanced_themer-180x180.png' },
+  { name: 'Fluent Forms', file: 'fluent-forms.png', url: 'https://fluentforms.com/wp-content/uploads/2025/06/cropped-favicon-180x180.png' },
+  { name: 'WPML', file: 'wpml.png', url: 'https://cdn.wpml.org/wp-content/themes/sitepress/images/apple-touch-icon.png' },
+  { name: 'WooCommerce', file: 'woocommerce.png', url: 'https://woocommerce.com/wp-content/uploads/2024/12/cropped-logo-w-favicon.png?w=180' },
+  { name: 'WP Rocket', file: 'wp-rocket.svg', url: 'https://wp-rocket.me/wp-content/themes/V4/assets/images/logo/wp-rocket.svg' },
+  { name: 'Borlabs Cookie', file: 'borlabs-cookie.png', url: 'https://borlabs.io/wp-content/uploads/layerslider/Homepage/borlabs-cookie-logo-square-512.png' },
+  { name: 'Figma', file: 'figma.png', url: 'https://static.figma.com/app/icon/2/touch-76.png' },
+  // No product logo exists for this one; the grid falls back to initials.
+  { name: 'SEO', file: null, url: null },
+];
 
 // ---------------------------------------------------------------------------
 // The content. Edit here rather than in the Studio, then re-run with --force.
@@ -223,9 +279,10 @@ const PROJECTS = [
     title: 'Life to go',
     url: 'https://life.seo-revolution.com/',
     description:
-      'Travel blog for a family who have been travelling since 2015 and now live in Thailand. '
-      + 'Built from start to finish, with a blog architecture for destination guides and '
-      + 'long-form travel content.',
+      'Relaunch of life-to-go.com, a travel blog run by a family who have been travelling '
+      + 'since 2015 and now live in Thailand. Built from start to finish in WordPress with '
+      + 'Bricks Builder, with a blog architecture for destination guides and long-form travel '
+      + 'content. Currently on staging ahead of go-live.',
   },
   // Both of these are pre-launch staging builds behind HTTP basic auth. Check
   // with the client before publishing screenshots of them.
@@ -500,6 +557,8 @@ async function main() {
     console.log(`Dates         : ${ROLE.startDate} -> ${ROLE.endDate || 'Present (ongoing)'}`);
     console.log(`Role tags     : ${ROLE.tags.join(', ')}`);
     console.log(`Technologies  : ${PROJECT_DETAILS.technologies.join(', ')}`);
+    console.log(`New skills    : ${SKILLS_TO_ADD.length} (existing ones are skipped at run time)`);
+    SKILLS_TO_ADD.forEach((s) => console.log(`  - ${s.name}${s.url ? '' : '  [no logo, initials]'}`));
     console.log(`Team members  : ${TEAM.length}`);
     TEAM.forEach((m) => console.log(`  - ${m.name} — ${m.role}`));
     console.log(`Result slides : ${PROJECTS.length}`);
@@ -531,7 +590,49 @@ async function main() {
     process.exit(1);
   }
 
-  // --- reuse existing skill icons where the names match ---
+  // --- add the missing skills first, so their icons feed the list below ---
+  const existingSkillNames = new Set(
+    (await query('*[_type == "skills"].name')).map((n) => n.toLowerCase()),
+  );
+
+  const newSkills = SKILLS_TO_ADD.filter((s) => !existingSkillNames.has(s.name.toLowerCase()));
+
+  if (!newSkills.length) {
+    console.log('All skills already exist — nothing to add there.');
+  } else {
+    console.log(`\nAdding ${newSkills.length} skill(s) to the Skills grid...`);
+
+    const skillMutations = [];
+    for (const skill of newSkills) {
+      let icon;
+
+      if (skill.url || skill.file) {
+        try {
+          const localFile = logoDir && skill.file ? path.join(logoDir, skill.file) : null;
+
+          if (localFile && fs.existsSync(localFile)) {
+            const ext = path.extname(localFile).toLowerCase();
+            const type = ext === '.svg' ? 'image/svg+xml' : ext === '.webp' ? 'image/webp' : ext === '.jpg' || ext === '.jpeg' ? 'image/jpeg' : 'image/png';
+            icon = await uploadImage(fs.readFileSync(localFile), skill.file, type);
+            console.log(`  ${skill.name} (from ${localFile})`);
+          } else if (skill.url) {
+            icon = await uploadImageFromUrl(skill.url, skill.file);
+            console.log(`  ${skill.name}`);
+          }
+        } catch (err) {
+          console.warn(`  ! ${skill.name}: ${err.message} — added without an icon`);
+        }
+      } else {
+        console.log(`  ${skill.name} (no logo, shows as initials)`);
+      }
+
+      skillMutations.push({ create: { _type: 'skills', name: skill.name, ...(icon ? { icon } : {}) } });
+    }
+
+    await mutate(skillMutations);
+  }
+
+  // --- reuse skill icons where the names match ---
   const skills = await query('*[_type == "skills"]{name, bgColor, icon}');
   const skillByName = new Map(skills.map((s) => [s.name.toLowerCase(), s]));
 
