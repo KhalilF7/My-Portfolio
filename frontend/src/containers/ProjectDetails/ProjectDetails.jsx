@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { HiChevronLeft, HiChevronRight, HiX } from 'react-icons/hi';
 
 import { imageUrl } from '../../client';
-import { formatDate, isOngoing } from '../../utils';
+import { formatDate, isOngoing, initialsFor } from '../../utils';
 import './ProjectDetails.scss';
 
 const OWNER = 'Khalil Fathalli';
@@ -21,17 +21,6 @@ const GENERIC_ROLES = [
   'php web developer',
   'software developer',
 ];
-
-/**
- * "WordPress" -> "W", "Bricks Builder" -> "BB", "Automatic.css" -> "AC".
- * Used when a technology has no icon uploaded in Sanity.
- */
-const initialsFor = (name = '') => String(name)
-  .split(/[\s._-]+/)
-  .filter(Boolean)
-  .slice(0, 2)
-  .map((word) => word[0].toUpperCase())
-  .join('');
 
 /**
  * The module the owner built on this project, or null when their role was a

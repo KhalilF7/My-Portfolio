@@ -220,3 +220,11 @@
     }
   }
 }
+
+/* Fallback when a skill has no logo uploaded (for example "SEO"). */
+.app__skills-item-initials {
+  font-size: var(--fs-md);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--secondary-color);
+}
